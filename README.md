@@ -32,12 +32,18 @@ conda env create -f environment.yml
 conda activate traffic-sign
 ```
 
-或手动创建：
+> 如果 `environment.yml` 安装失败，可以手动创建：
+>
+> ```bash
+> conda create -n traffic-sign python=3.10 -y
+> conda activate traffic-sign
+> pip install -r requirements.txt
+> ```
+
+### 3. 验证环境
 
 ```bash
-conda create -n traffic-sign python=3.10 -y
-conda activate traffic-sign
-pip install -r requirements.txt
+python -c "import torch; print('CUDA:', torch.cuda.is_available()); import ultralytics; print('YOLOv8:', ultralytics.__version__)"
 ```
 
 ### 4. 训练模型

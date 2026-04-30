@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model weights (too large for git)
+models/*.pt
+models/*.onnx
+models/*.engine
+
+# Dataset images and labels (too large for git)
+datasets/dataset/TT100K/
+datasets/dataset/images/
+datasets/dataset/labels/
+datasets/dataset/labels_temp/
+
+# Training outputs
+runs/
+
+# Detection results
+save_data/*.jpg
+save_data/*.png
+save_data/*.avi
+save_data/*.mp4
+
+# Test files
+test-file/images/*
+test-file/videos/*
+!test-file/images/.gitkeep
+!test-file/videos/.gitkeep
+
+# CLAUDE.md (auto-generated)
+CLAUDE.md

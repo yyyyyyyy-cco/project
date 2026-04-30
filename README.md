@@ -1,0 +1,145 @@
+# 交通标志识别系统
+
+基于 YOLOv8 + PyQt5 的中国交通标志实时检测桌面应用，使用 TT100K 数据集训练。
+
+## 功能
+
+- 单张图片检测
+- 视频文件逐帧检测
+- 摄像头实时检测
+- 批量文件夹检测
+- 检测结果保存
+- 45 类交通标志识别（限速/限重/禁令/指示/警告）
+
+## 环境要求
+
+- Python 3.9+
+- CUDA 11.8+（GPU 推理加速，可选）
+
+## 快速开始
+
+### 1. 克隆项目
+
+```bash
+git clone https://github.com/yyyyyyyy-cco/project.git
+cd project
+```
+
+### 2. 创建虚拟环境并激活
+
+```bash
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# Linux / macOS
+source venv/bin/activate
+```
+
+### 3. 安装依赖
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. 准备数据集
+
+下载 [TT100K 数据集](https://cg.cs.tsinghua.edu.cn/traffic-sign/)，解压到 `datasets/dataset/TT100K/`：
+
+```text
+datasets/dataset/TT100K/
+├── train/
+│   ├── images/
+│   └── annotations.json
+└── test/
+    ├── images/
+    └── annotations.json
+```
+
+转换并划分数据集：
+
+```bash
+cd datasets/dataset
+python tt100k_to_yolo.py   # JSON → YOLO TXT
+python split_data.py        # 划分 train/val/test (70/10/20)
+```
+
+### 5. 训练模型
+
+```bash
+python -c "
+from ultralytics import YOLO
+model = YOLO('yolov8s.pt')
+model.train(data='datasets/dataset/data.yaml', epochs=300, batch=16, imgsz=640)
+"
+```
+
+训练完成后，将 `runs/detect/train/weights/best.pt` 复制到 `models/best.pt`。
+
+### 6. 运行应用
+
+```bash
+# GUI 桌面应用
+python MainProgram.py
+
+# 或使用独立测试脚本
+python imgTest.py       # 单图检测
+python VideoTest.py     # 视频检测
+python CameraTest.py    # 摄像头检测
+```
+
+## 项目结构
+
+```text
+project/
+├── MainProgram.py               # 主程序入口（PyQt5 主窗口）
+├── Config.py                    # 配置文件（模型路径、类别名称）
+├── detect_tools.py              # 检测工具函数
+├── imgTest.py                   # 单图测试脚本
+├── CameraTest.py                # 摄像头实时检测脚本
+├── VideoTest.py                 # 视频文件检测脚本
+├── requirements.txt             # Python 依赖
+├── UIProgram/
+│   ├── UiMain.ui                # Qt Designer 界面文件
+│   ├── UiMain.py                # pyuic5 编译后的 UI 代码
+│   ├── style.css                # QSS 样式表
+│   ├── QssLoader.py             # 样式加载器
+│   └── precess_bar.py           # 进度条对话框
+├── datasets/
+│   └── dataset/
+│       ├── data.yaml            # YOLO 数据集配置
+│       ├── tt100k_to_yolo.py    # TT100K JSON → YOLO TXT 转换
+│       ├── split_data.py        # 数据集划分脚本
+│       ├── TT100K/              # 原始 TT100K 数据集（需下载）
+│       ├── images/              # 划分后的图片
+│       └── labels/              # 划分后的标签
+├── models/
+│   └── best.pt                  # 训练好的模型权重（需训练）
+├── Font/
+│   └── platech.ttf              # 中文字体文件
+├── save_data/                   # 检测结果保存目录
+└── test-file/                   # 测试图片/视频
+```
+
+## 数据集
+
+使用 [TT100K](https://cg.cs.tsinghua.edu.cn/traffic-sign/)（清华-腾讯交通标志数据集），过滤后保留 45 类。
+
+| 分组 | 类别数 | 示例 |
+|------|--------|------|
+| 限速标志 | 10 | pl20, pl30, ..., pl120 |
+| 限重标志 | 4 | pm10, pm20, pm30, pm55 |
+| 禁令/指示 | 13 | pn, pne, ps, io, ip, ... |
+| 警告标志 | 18 | w1, w3, w8, w10, w13, ... |
+
+## UI 界面
+
+![UI Layout](docs/ui_layout.png)
+
+- 左侧：图片/视频显示区域 + 检测详情表
+- 右侧：输入方式选择、检测结果信息、各类别占比进度条
+
+## 许可证
+
+本项目仅供学习和研究使用。TT100K 数据集的使用请遵循其官方协议。

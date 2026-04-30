@@ -1,54 +1,52 @@
-path: E:/study/projects/A/project/datasets/dataset
+path: datasets/dataset
 train: images/train
 val: images/val
 test: images/test
 
-nc: 43
+nc: 45
 names:
-  # 禁令标志 (0-18)
-  - speed_limit_20
-  - speed_limit_30
-  - speed_limit_40
-  - speed_limit_50
-  - speed_limit_60
-  - speed_limit_70
-  - speed_limit_80
-  - speed_limit_100
-  - speed_limit_120
-  - no_entry
-  - no_turn_left
-  - no_turn_right
-  - no_u_turn
-  - no_overtaking
-  - no_honking
-  - no_parking
-  - no_stopping
-  - weight_limit
-  - height_limit
-  # 指示标志 (19-28)
-  - go_straight
-  - turn_left
-  - turn_right
-  - turn_left_right
-  - u_turn
-  - roundabout
-  - pedestrian_crossing
-  - bicycle_lane
-  - motorway
-  - parking
-  # 警告标志 (29-38)
-  - crosswalk_warning
-  - curve_left
-  - curve_right
-  - steep_hill
-  - road_work
-  - traffic_light_ahead
-  - falling_rocks
-  - slippery_road
-  - school_zone
-  - intersection
-  # 其他标志 (39-42)
-  - stop_sign
-  - yield_sign
-  - guide_sign
-  - highway_sign
+  - pl100
+  - pl120
+  - pl20
+  - pl30
+  - pl40
+  - pl5
+  - pl50
+  - pl60
+  - pl70
+  - pl80
+  - pm10
+  - pm20
+  - pm30
+  - pm55
+  - p11
+  - p12
+  - p19
+  - p23
+  - p26
+  - p27
+  - p3
+  - p5
+  - p6
+  - pn
+  - pne
+  - ps
+  - pw3
+  - w1
+  - w10
+  - w12
+  - w13
+  - w14
+  - w15
+  - w16
+  - w18
+  - w19
+  - w20
+  - w21
+  - w22
+  - w3
+  - w30
+  - w32
+  - w34
+  - w35
+  - w55

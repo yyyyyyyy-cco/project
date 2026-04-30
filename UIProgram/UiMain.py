@@ -315,7 +315,7 @@ class Ui_MainWindow(object):
         self.frame_7.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_7.setObjectName("frame_7")
 
-        # 进度条 1 - 禁令标志
+        # 进度条 1 - 限速标志
         self.progressBar = QtWidgets.QProgressBar(self.frame_7)
         self.progressBar.setGeometry(QtCore.QRect(30, 30, 40, 128))
         self.progressBar.setLayoutDirection(QtCore.Qt.RightToLeft)
@@ -339,7 +339,7 @@ class Ui_MainWindow(object):
         self.label_14.setFont(font)
         self.label_14.setObjectName("label_14")
 
-        # 进度条 2 - 指示标志
+        # 进度条 2 - 限重标志
         self.progressBar_2 = QtWidgets.QProgressBar(self.frame_7)
         self.progressBar_2.setGeometry(QtCore.QRect(120, 30, 40, 128))
         self.progressBar_2.setProperty("value", 0)
@@ -361,7 +361,7 @@ class Ui_MainWindow(object):
         self.label_15.setFont(font)
         self.label_15.setObjectName("label_15")
 
-        # 进度条 3 - 警告标志
+        # 进度条 3 - 禁令指示
         self.progressBar_3 = QtWidgets.QProgressBar(self.frame_7)
         self.progressBar_3.setGeometry(QtCore.QRect(210, 30, 40, 128))
         self.progressBar_3.setProperty("value", 0)
@@ -383,7 +383,7 @@ class Ui_MainWindow(object):
         self.label_16.setFont(font)
         self.label_16.setObjectName("label_16")
 
-        # 进度条 4 - 其他标志
+        # 进度条 4 - 警告标志
         self.progressBar_4 = QtWidgets.QProgressBar(self.frame_7)
         self.progressBar_4.setGeometry(QtCore.QRect(300, 30, 40, 128))
         self.progressBar_4.setProperty("value", 0)
@@ -457,7 +457,7 @@ class Ui_MainWindow(object):
         self.label_21.setText(_translate("MainWindow", "0%"))
         self.label_22.setText(_translate("MainWindow", "0%"))
         self.label_23.setText(_translate("MainWindow", "0%"))
-        self.label_14.setText(_translate("MainWindow", "禁令"))
-        self.label_15.setText(_translate("MainWindow", "指示"))
-        self.label_16.setText(_translate("MainWindow", "警告"))
-        self.label_17.setText(_translate("MainWindow", "其他"))
+        self.label_14.setText(_translate("MainWindow", "限速"))
+        self.label_15.setText(_translate("MainWindow", "限重"))
+        self.label_16.setText(_translate("MainWindow", "禁令指示"))
+        self.label_17.setText(_translate("MainWindow", "警告"))

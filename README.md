@@ -13,7 +13,7 @@
 
 ## 环境要求
 
-- Python 3.9+
+- Python 3.10
 - CUDA 11.8+（GPU 推理加速，可选）
 
 ## 快速开始
@@ -25,21 +25,18 @@ git clone https://github.com/yyyyyyyy-cco/project.git
 cd project
 ```
 
-### 2. 创建虚拟环境并激活
+### 2. 创建 conda 环境并激活
 
 ```bash
-python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# Linux / macOS
-source venv/bin/activate
+conda env create -f environment.yml
+conda activate traffic-sign
 ```
 
-### 3. 安装依赖
+或手动创建：
 
 ```bash
+conda create -n traffic-sign python=3.10 -y
+conda activate traffic-sign
 pip install -r requirements.txt
 ```
 

@@ -46,6 +46,8 @@ conda activate traffic-sign
 python -c "import torch; print('CUDA:', torch.cuda.is_available()); import ultralytics; print('YOLOv8:', ultralytics.__version__)"
 ```
 
+> 如需编辑 `.ui` 界面文件，可额外安装 `pip install pyqt5-tools`，运行时不需要。
+
 ### 4. 训练模型
 
 训练时会自动下载 TT100K 数据集（约 18GB，首次需要）并转换为 YOLO 格式。

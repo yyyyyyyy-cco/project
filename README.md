@@ -99,7 +99,7 @@ project/
 │   ├── UiMain.py                # pyuic5 编译后的 UI 代码
 │   ├── style.css                # QSS 样式表
 │   ├── QssLoader.py             # 样式加载器
-│   └── precess_bar.py           # 进度条对话框
+│   └── progress_bar.py           # 进度条对话框
 ├── datasets/
 │   └── dataset/
 │       ├── data.yaml            # YOLO 数据集配置（训练时自动下载 TT100K）

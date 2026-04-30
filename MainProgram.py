@@ -14,13 +14,13 @@ import detect_tools as tools
 import cv2
 import Config
 from UIProgram.QssLoader import QSSLoader
-from UIProgram.precess_bar import ProgressBar
+from UIProgram.progress_bar import ProgressBar
 import numpy as np
 
 
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
-        super(QMainWindow, self).__init__(parent)
+        super(MainWindow, self).__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.initMain()
@@ -34,11 +34,11 @@ class MainWindow(QMainWindow):
     def signalconnect(self):
         self.ui.PicBtn.clicked.connect(self.open_img)
         self.ui.comboBox.activated.connect(self.combox_change)
-        self.ui.VideoBtn.clicked.connect(self.vedio_show)
+        self.ui.VideoBtn.clicked.connect(self.video_show)
         self.ui.CapBtn.clicked.connect(self.camera_show)
         self.ui.SaveBtn.clicked.connect(self.save_detect_video)
         self.ui.ExitBtn.clicked.connect(QCoreApplication.quit)
-        self.ui.FilesBtn.clicked.connect(self.detact_batch_imgs)
+        self.ui.FilesBtn.clicked.connect(self.detect_batch_imgs)
 
     def initMain(self):
         self.show_width = 770
@@ -89,7 +89,6 @@ class MainWindow(QMainWindow):
 
         self.ui.comboBox.setDisabled(False)
         self.org_path = file_path
-        self.org_img = tools.img_cvread(self.org_path)
 
         # 目标检测
         t1 = time.time()
@@ -140,7 +139,7 @@ class MainWindow(QMainWindow):
         self.ui.tableWidget.clearContents()
         self.tabel_info_show(self.location_list, self.cls_list, self.conf_list, path=self.org_path)
 
-    def detact_batch_imgs(self):
+    def detect_batch_imgs(self):
         if self.cap:
             self.video_stop()
             self.is_camera_open = False
@@ -151,13 +150,15 @@ class MainWindow(QMainWindow):
         if not directory:
             return
 
+        self.ui.tableWidget.setRowCount(0)
+        self.ui.tableWidget.clearContents()
+
         self.org_path = directory
         img_suffix = ['jpg', 'png', 'jpeg', 'bmp']
         for file_name in os.listdir(directory):
             full_path = os.path.join(directory, file_name)
             if os.path.isfile(full_path) and file_name.split('.')[-1].lower() in img_suffix:
                 img_path = full_path
-                self.org_img = tools.img_cvread(img_path)
 
                 t1 = time.time()
                 self.results = self.model(img_path)[0]
@@ -313,7 +314,7 @@ class MainWindow(QMainWindow):
             self.cap.release()
             self.timer_camera.stop()
 
-    def vedio_show(self):
+    def video_show(self):
         if self.is_camera_open:
             self.is_camera_open = False
             self.ui.CaplineEdit.setText('摄像头未开启')
@@ -467,7 +468,7 @@ class btn2Thread(QThread):
         size = (int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)),
                 int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)))
         fileName = os.path.basename(self.org_path)
-        name, end_name = fileName.split('.')
+        name, _ = os.path.splitext(fileName)
         save_name = name + '_detect_result.avi'
         save_video_path = os.path.join(Config.save_path, save_name)
         out = cv2.VideoWriter(save_video_path, fourcc, fps, size)

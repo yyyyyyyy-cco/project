@@ -42,7 +42,7 @@ MainProgram.py          — Entry point. MainWindow(QMainWindow) loads YOLO mode
 │   ├── UiMain.py       — pyuic5-compiled UI (auto-generated from UiMain.ui, do not edit manually)
 │   ├── style.css       — QSS stylesheet
 │   ├── QssLoader.py    — Reads QSS files
-│   └── precess_bar.py  — Progress bar dialog for video save
+│   └── progress_bar.py — Progress bar dialog for video save
 └── datasets/dataset/   — Data pipeline scripts and dataset files
 ```
 

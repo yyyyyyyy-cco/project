@@ -9,7 +9,7 @@
 - 摄像头实时检测
 - 批量文件夹检测
 - 检测结果保存
-- 45 类交通标志识别（限速/限重/禁令/指示/警告）
+- 221 类交通标志识别（限速/限重/禁令/指示/警告）
 
 ## 环境要求
 
@@ -40,29 +40,9 @@ conda activate traffic-sign
 pip install -r requirements.txt
 ```
 
-### 4. 准备数据集
+### 4. 训练模型
 
-下载 [TT100K 数据集](https://cg.cs.tsinghua.edu.cn/traffic-sign/)，解压到 `datasets/dataset/TT100K/`：
-
-```text
-datasets/dataset/TT100K/
-├── train/
-│   ├── images/
-│   └── annotations.json
-└── test/
-    ├── images/
-    └── annotations.json
-```
-
-转换并划分数据集：
-
-```bash
-cd datasets/dataset
-python tt100k_to_yolo.py   # JSON → YOLO TXT
-python split_data.py        # 划分 train/val/test (70/10/20)
-```
-
-### 5. 训练模型
+训练时会自动下载 TT100K 数据集（约 18GB，首次需要）并转换为 YOLO 格式。
 
 ```bash
 python -c "
@@ -74,7 +54,7 @@ model.train(data='datasets/dataset/data.yaml', epochs=300, batch=16, imgsz=640)
 
 训练完成后，将 `runs/detect/train/weights/best.pt` 复制到 `models/best.pt`。
 
-### 6. 运行应用
+### 5. 运行应用
 
 ```bash
 # GUI 桌面应用
@@ -105,12 +85,10 @@ project/
 │   └── precess_bar.py           # 进度条对话框
 ├── datasets/
 │   └── dataset/
-│       ├── data.yaml            # YOLO 数据集配置
-│       ├── tt100k_to_yolo.py    # TT100K JSON → YOLO TXT 转换
-│       ├── split_data.py        # 数据集划分脚本
-│       ├── TT100K/              # 原始 TT100K 数据集（需下载）
-│       ├── images/              # 划分后的图片
-│       └── labels/              # 划分后的标签
+│       ├── data.yaml            # YOLO 数据集配置（训练时自动下载 TT100K）
+│       ├── TT100K/              # 数据集（训练时自动生成）
+│       ├── images/              # 划分后的图片（自动生成）
+│       └── labels/              # 划分后的标签（自动生成）
 ├── models/
 │   └── best.pt                  # 训练好的模型权重（需训练）
 ├── Font/
@@ -121,7 +99,7 @@ project/
 
 ## 数据集
 
-使用 [TT100K](https://cg.cs.tsinghua.edu.cn/traffic-sign/)（清华-腾讯交通标志数据集），过滤后保留 45 类。
+使用 [TT100K](https://cg.cs.tsinghua.edu.cn/traffic-sign/)（清华-腾讯交通标志数据集），221 类。训练时自动下载。
 
 | 分组 | 类别数 | 示例 |
 |------|--------|------|

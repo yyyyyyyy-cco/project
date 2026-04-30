@@ -11,7 +11,7 @@ Traffic Sign Detection System (交通标志识别系统) — a PyQt5 desktop app
 - **Model**: Ultralytics YOLOv8 (v8.0.199), PyTorch with CUDA
 - **GUI**: PyQt5 5.15.2 with Qt Designer (.ui files compiled via pyuic5)
 - **Image processing**: OpenCV + Pillow (PIL for Chinese text rendering)
-- **Dataset**: TT100K (Tsinghua-Tencent 100K), 45 filtered classes
+- **Dataset**: TT100K (Tsinghua-Tencent 100K), 221 classes, auto-downloads on first training
 - **Label format**: YOLO TXT (`<class_id> <x_center> <y_center> <width> <height>`, normalized 0-1)
 
 ## Commands
@@ -28,10 +28,8 @@ python imgTest.py          # Single image test
 python VideoTest.py        # Video file detection
 python CameraTest.py       # Real-time camera detection
 
-# Dataset preparation pipeline (run in order)
-cd datasets/dataset
-python tt100k_to_yolo.py   # TT100K JSON → YOLO TXT conversion
-python split_data.py       # Split into train/val/test (70/10/20)
+# Dataset auto-downloads on first training run
+python -c "from ultralytics import YOLO; YOLO('yolov8s.pt').train(data='datasets/dataset/data.yaml', epochs=1)"
 ```
 
 ## Architecture
@@ -60,16 +58,15 @@ MainProgram.py          — Entry point. MainWindow(QMainWindow) loads YOLO mode
 ## Dataset: TT100K
 
 - **Source**: [Tsinghua-Tencent 100K](https://cg.cs.tsinghua.edu.cn/traffic-sign/)
-- **Structure**: `TT100K/train/images/`, `TT100K/test/images/` + JSON annotations
-- **Filtered**: 45 classes (removing categories with < 100 instances)
-- **Conversion**: `tt100k_to_yolo.py` reads JSON annotations, converts bbox to YOLO format, saves to `labels_temp/`
-- **Split**: `split_data.py` merges train+test images, splits 70/10/20 into `images/` and `labels/`
+- **221 classes** (Ultralytics standard)
+- **Auto-download**: Training with `data='datasets/dataset/data.yaml'` auto-downloads and converts the dataset
+- **Download URL**: `https://cg.cs.tsinghua.edu.cn/traffic-sign/data_model_code/data.zip`
+- **Output**: `datasets/dataset/TT100K/images/{train,val,test}/` + `labels/{train,val,test}/`
 
 ## Key Files to Modify When Adding/Changing Classes
 
-1. `Config.py` — `names` dict, `CH_names` list, `category_groups` dict
+1. `Config.py` — `names` dict, `CH_names` dict, `category_groups` dict
 2. `datasets/dataset/data.yaml` — class names list and `nc` count
-3. `datasets/dataset/tt100k_to_yolo.py` — `CLASSES` list and `CLASS_NAMES_CN` dict
 
 ## UI Notes
 

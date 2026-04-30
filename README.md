@@ -43,7 +43,13 @@ conda activate traffic-sign
 ### 3. 验证环境
 
 ```bash
-python -c "import torch; print('CUDA:', torch.cuda.is_available()); import ultralytics; print('YOLOv8:', ultralytics.__version__)"
+python -c "import torch; print('CUDA:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'N/A'); import ultralytics; print('YOLOv8:', ultralytics.__version__)"
+```
+
+预期输出 `CUDA: True`。如果显示 `False`，说明 PyTorch 安装的是 CPU 版本，需要重新安装：
+
+```bash
+pip install torch torchvision --extra-index-url https://download.pytorch.org/whl/cu121
 ```
 
 > 如需编辑 `.ui` 界面文件，可额外安装 `pip install pyqt5-tools`，运行时不需要。

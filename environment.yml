@@ -8,6 +8,7 @@ dependencies:
   - pip
   - pyqt>=5.15
   - pip:
+    - --extra-index-url https://download.pytorch.org/whl/cu121
     - torch>=2.0.0
     - torchvision>=0.15.0
     - ultralytics==8.0.199

@@ -50,17 +50,20 @@ python -c "import torch; print('CUDA:', torch.cuda.is_available()); import ultra
 
 ### 4. 训练模型
 
-训练时会自动下载 TT100K 数据集（约 18GB，首次需要）并转换为 YOLO 格式。
+首次训练会自动下载 TT100K 数据集（约 18GB），无需手动操作。
 
 ```bash
-python -c "
-from ultralytics import YOLO
-model = YOLO('yolov8s.pt')
-model.train(data='datasets/dataset/data.yaml', epochs=300, batch=16, imgsz=640)
-"
+# 默认参数训练（YOLOv8s, 300 epochs, 640px）
+python train.py
+
+# 自定义参数
+python train.py --epochs 100 --batch 8 --imgsz 1280
+
+# 使用 CPU 训练（不推荐，非常慢）
+python train.py --device cpu
 ```
 
-训练完成后，将 `runs/detect/train/weights/best.pt` 复制到 `models/best.pt`。
+训练完成后，`best.pt` 会自动复制到 `models/best.pt`。
 
 ### 5. 运行应用
 
@@ -110,7 +113,7 @@ project/
 使用 [TT100K](https://cg.cs.tsinghua.edu.cn/traffic-sign/)（清华-腾讯交通标志数据集），221 类。训练时自动下载。
 
 | 分组 | 类别数 | 示例 |
-|------|--------|------|
+| ---- | ---- | ---- |
 | 限速标志 | 10 | pl20, pl30, ..., pl120 |
 | 限重标志 | 4 | pm10, pm20, pm30, pm55 |
 | 禁令/指示 | 13 | pn, pne, ps, io, ip, ... |

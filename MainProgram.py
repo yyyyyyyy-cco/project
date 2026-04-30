@@ -48,6 +48,11 @@ class MainWindow(QMainWindow):
         self.cap = None
 
         # 加载检测模型
+        if not os.path.exists(Config.model_path):
+            QMessageBox.critical(self, '错误',
+                                 f'模型文件不存在: {Config.model_path}\n'
+                                 f'请先训练模型并将 best.pt 复制到 models/ 目录。')
+            sys.exit(1)
         self.model = YOLO(Config.model_path, task='detect')
         self.model(np.zeros((48, 48, 3)))  # 预先加载推理模型
         self.fontC = ImageFont.truetype("Font/platech.ttf", 25, 0)

@@ -52,6 +52,3 @@ test-file/images/*
 test-file/videos/*
 !test-file/images/.gitkeep
 !test-file/videos/.gitkeep
-
-# CLAUDE.md (auto-generated)
-CLAUDE.md

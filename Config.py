@@ -46,28 +46,36 @@ names = {
     214: 'i15', 215: 'il60', 216: 'il80', 217: 'il100', 218: 'il110', 219: 'io', 220: 'ip',
 }
 
-# 中文类别名（仅常用类别，其余显示英文）
-CH_names = {v: v for v in names.values()}
-_CH_MAP = {
-    'pl5': '限速5', 'pl10': '限速10', 'pl15': '限速15', 'pl20': '限速20',
-    'pl25': '限速25', 'pl30': '限速30', 'pl40': '限速40', 'pl50': '限速50',
-    'pl60': '限速60', 'pl70': '限速70', 'pl80': '限速80', 'pl90': '限速90',
-    'pl100': '限速100', 'pl110': '限速110', 'pl120': '限速120',
-    'pm5': '限重5', 'pm10': '限重10', 'pm20': '限重20', 'pm30': '限重30', 'pm55': '限重55',
-    'pn': '禁止通行', 'pne': '禁止驶入', 'ps': '停车让行',
-    'p11': '自行车通行', 'p12': '步行', 'p19': '掉头', 'p23': '直行',
-    'p26': '右转', 'p27': '左转', 'p3': '机动车进入', 'p5': '靠右行驶',
-    'w1': '交叉路口', 'w3': '连续弯路', 'w8': '注意行人', 'w10': '信号灯',
-    'w13': '注意儿童', 'w20': '易滑', 'w22': '施工路段', 'w32': '隧道',
-    'w34': '铁道路口', 'w55': '减速让行',
-    'io': '直行', 'ip': '人行横道', 'i3': '环岛', 'i5': '左转',
+# 中文类别名（键为 int 类型，与 names 一致）
+CH_names = {k: v for k, v in names.items()}
+_CN_MAP = {
+    0: '限速5', 1: '限速10', 2: '限速15', 3: '限速20', 4: '限速25', 5: '限速30',
+    6: '限速40', 7: '限速50', 8: '限速60', 9: '限速70', 10: '限速80', 11: '限速90',
+    12: '限速100', 13: '限速110', 14: '限速120',
+    15: '限重5', 16: '限重10', 17: '限重13', 18: '限重15', 19: '限重20', 20: '限重25',
+    21: '限重30', 22: '限重35', 23: '限重40', 24: '限重46', 25: '限重50', 26: '限重55', 27: '限重8',
+    28: '禁止通行', 29: '禁止驶入', 33: '停车让行',
+    74: '自行车通行', 75: '步行', 82: '掉头', 86: '直行', 89: '右转', 90: '左转',
+    66: '机动车进入', 68: '靠右行驶', 69: '靠左行驶',
+    155: '交叉路口', 157: '连续弯路', 159: '注意行人', 160: '信号灯',
+    162: '注意儿童', 165: '易滑', 167: '施工路段', 172: '隧道',
+    173: '铁道路口', 191: '减速让行',
+    219: '直行', 220: '人行横道', 202: '环岛', 204: '左转',
+    215: '限速60', 216: '限速80', 217: '限速100', 218: '限速110',
 }
-CH_names.update(_CH_MAP)
+CH_names.update(_CN_MAP)
 
-# 类别分组（用于进度条显示，按前缀归类）
+# 类别分组（用于进度条显示，互斥分组，无重叠）
+_speed_ids = {i for i, v in names.items() if v.startswith('pl')}
+_weight_ids = {i for i, v in names.items() if v.startswith('pm')}
+_info_ids = {i for i, v in names.items() if v.startswith('il')}
+_warn_ids = {i for i, v in names.items() if v.startswith('w')}
+_indicate_ids = {i for i, v in names.items() if v.startswith('i') and not v.startswith('il')}
+_prohibit_ids = set(names.keys()) - _speed_ids - _weight_ids - _info_ids - _warn_ids - _indicate_ids
+
 category_groups = {
-    '限速标志': [i for i, v in names.items() if v.startswith('pl') or v.startswith('il')],
-    '限重标志': [i for i, v in names.items() if v.startswith('pm')],
-    '禁令指示': [i for i, v in names.items() if v.startswith('p') and not v.startswith('pl') and not v.startswith('pm')],
-    '警告标志': [i for i, v in names.items() if v.startswith('w') or v.startswith('i')],
+    '限速标志': sorted(_speed_ids | _info_ids),
+    '限重标志': sorted(_weight_ids),
+    '禁令指示': sorted(_prohibit_ids),
+    '警告标志': sorted(_warn_ids | _indicate_ids),
 }
